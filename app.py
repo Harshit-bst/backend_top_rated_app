@@ -46,7 +46,9 @@ def get_all_apps():
             response_data[category].append(data)
         else:
             response_data[category] = [data]
-    return {"data": response_data}
+    response = jsonify({"data": response_data})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 
 @app.route('/api/v1/save-new-apps')
