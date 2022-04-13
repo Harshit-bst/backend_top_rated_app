@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 import requests
 from bs4 import BeautifulSoup
 from sqlalchemy import desc
@@ -63,8 +63,33 @@ def save_new_apps():  # put application's code here
     get_app_json_formatted_data(top_paid_games.children, "top_paid_games")
     get_app_json_formatted_data(top_grossing_games.children, "top_grossing_games")
     db.session.commit()
-    return jsonify({"success": True})
+    response = jsonify({"success": True})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
+
+# def get_app_detail_json_formatted_data(data):
+#     response = {
+#
+#     }
+#     icon = data.find("img", attrs={"alt": "Cover art"})
+#     icon = data.find("img", attrs={"alt": "Cover art"})
+#     icon = data.find("img", attrs={"alt": "Cover art"})
+#     icon = data.find("img", attrs={"alt": "Cover art"})
+#     icon = data.find("img", attrs={"alt": "Cover art"})
+#     icon = data.find("img", attrs={"alt": "Cover art"})
+
+
+@app.route('/api/v1/apps/details', methods=['GET'])
+def get_app_details():
+    id = request.args.get("id")
+    response = requests.get(f"https://play.google.com/store/apps/details?id={id}")
+    soup = BeautifulSoup(response.content, "html5lib")
+    response_data = soup.find("c-wiz", attrs={"class": ["zQTmif", "SSPGKf", "I3xX3c", "drrice"]})
+    # response_data = get_app_detail_json_formatted_data(response_data)
+    response = jsonify({"data": str(response_data)})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 app.config.from_object('config.settings')
 app.config.from_pyfile('settings.py', silent=True)
