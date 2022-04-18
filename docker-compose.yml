@@ -1,14 +1,15 @@
 version: '2'
 
 services:
-  pycharm:
+  website:
     build: .
     environment:
       PYTHONUNBUFFERED: 'true'
     volumes:
       - '.:/backend_top_rated_app'
     ports:
-      - '8000:8000'
+      - '${PORT}:${PORT}'
+    entrypoint: "gunicorn -b 0.0.0.0:${PORT} --access-logfile - 'app:app'"
     depends_on:
       - "postgres"
   postgres:
