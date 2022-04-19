@@ -8,7 +8,7 @@ services:
     volumes:
       - '.:/backend_top_rated_app'
     ports:
-      - '8000:8000'
+      - '${PORT}:${PORT}'
     depends_on:
       - "postgres"
   postgres:
@@ -19,6 +19,5 @@ services:
       - 'postgres:/var/lib/postgresql/data'
     ports:
       - '5432:5432'
-
 volumes:
   postgres:
