@@ -11,10 +11,16 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+env_variables:
+  POSTGRES_HOST: "/cloudsql/bluestacks-cloud-beginners:us-central1:backend-top-rated-app-pg-instance"
+  POSTGRES_DB: "backend_top_rated_app"
+  POSTGRES_USER: "harshit"
+  POSTGRES_PASSWORD: "devpassword"
+
+
 runtime: custom
 service: harshit-dev
 env: flex
-entrypoint: docker-compose up
 
 runtime_config:
   python_version: 3
